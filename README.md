@@ -8,4 +8,5 @@ It was a school exercise, primarally to practice making GUI applications,
 and reading from text files.
 
 Screenshot:
+
 ![image](https://christianfosli.github.io/img/labyrintScreenShot.jpg)

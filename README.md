@@ -6,3 +6,7 @@ The goal of the game is too reach the finish box.
 
 It was a school exercise, primarally to practice making GUI applications,
 and reading from text files.
+
+Screenshot:
+
+![image](https://christianfosli.github.io/img/labyrintScreenShot.jpg)

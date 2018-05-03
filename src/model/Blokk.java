@@ -3,10 +3,13 @@ package model;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import spiller.Spiller;
+import view.ErrorMessage;
 
 public class Blokk extends LabyrintRute {
 
 	private Labyrint labyrinten;
+	int previousXpos;
+	int previousYpos;
 	
 	public Blokk(int xPos, int yPos, Labyrint labyrinten) {
 		super(xPos, yPos);
@@ -16,51 +19,63 @@ public class Blokk extends LabyrintRute {
 	@Override
 	public boolean moveHere(Spiller s) {
 		
-		int oldXPosSelf = this.getXpos();
-		int oldYPosSelf = this.getYpos();
+		previousXpos = this.getXpos();
+		previousYpos = this.getYpos();
+		LabyrintRute pushedIntoRute;
 		
-		int xPosSelf;
-		int yPosSelf;
-		
-		if (s.getPos()[0] < this.getXpos() && s.getPos()[1]==this.getYpos()) {
-			// Spiller --> Blokk
-			xPosSelf = this.getXpos()+1;
-			yPosSelf = this.getYpos();
-			
-		}else if (s.getPos()[0] > this.getXpos() && s.getPos()[1]==this.getYpos()) {
-			// Blokk <-- Spiller
-			xPosSelf = this.getXpos()-1;
-			yPosSelf = this.getYpos();
-			
-		}else if (s.getPos()[0] == this.getXpos() && s.getPos()[1] < this.getYpos()) {
-			// Spiller 
-			// \> Blokk
-			xPosSelf = this.getXpos();
-			yPosSelf = this.getYpos()+1;
-			
-		}else if (s.getPos()[0] == this.getXpos() && s.getPos()[1] > this.getYpos()) {
-			// Blokk
-			// ^Spiller
-			xPosSelf = this.getXpos();
-			yPosSelf = this.getYpos()-1;
-		}else
+		try {
+			pushedIntoRute = whatAmIPushedInto(s.getPos()[0], s.getPos()[1]);
+		}catch (RuntimeException e) {
+			new ErrorMessage("moving spiller and/or blokk", "Blokk at "+this.getXpos() +
+					", " + this.getYpos() + ": " + e.getMessage());
 			return false;
+		}
 		
-		if (labyrinten.getRute(xPosSelf,yPosSelf).moveHere(this)) {
-			s.setPos(new int[] {oldXPosSelf,oldYPosSelf});
-			if (labyrinten.getRute(xPosSelf, yPosSelf) instanceof Fallgrav ||
-					labyrinten.getRute(xPosSelf,yPosSelf) instanceof Teleport)
-				labyrinten.reDraw(this, new Gang(this.getXpos(),this.getYpos()));
-			labyrinten.reDraw(this, labyrinten.getRute(this.getXpos(),this.getYpos()));
+		if (moveSelf(pushedIntoRute)) {
+			s.setPos(new int[] {previousXpos, previousYpos});
 			return true;
-		}return false;//TODO tror dette blir riktig.....
+		}return false;
+
+	}
+	
+	private boolean moveSelf(LabyrintRute pushedIntoRute) {
+		
+		boolean moved = pushedIntoRute.moveHere(this);
+		
+		if (moved) {
+			
+			if (pushedIntoRute instanceof Gang)
+				labyrinten.swapRuter(this, pushedIntoRute);
+			else
+				labyrinten.replaceRute(this, new Gang(previousXpos, previousYpos));
+			return true;
+		}return false;
+	}
+	
+	private LabyrintRute whatAmIPushedInto(int pushersXpos, int pushersYpos) {
+		
+		//Spiller -> Blokk
+		if (pushersXpos < this.getXpos() && pushersYpos==this.getYpos())
+			return labyrinten.getRute(this.getXpos()+1, this.getYpos());
+			
+		// Blokk <- Spiller
+		else if (pushersXpos > this.getXpos() && pushersYpos==this.getYpos())
+			return labyrinten.getRute(this.getXpos()-1, this.getYpos());
+			
+		// Spiller [ned] blokk
+		else if (pushersXpos == this.getXpos() && pushersYpos < this.getYpos())
+			return labyrinten.getRute(this.getXpos(), this.getYpos()+1);
+			
+		// Spiller [opp] Blokk
+		else if (pushersXpos == this.getXpos() && pushersYpos > this.getYpos())
+			return labyrinten.getRute(this.getXpos(), this.getYpos()-1);
+		
+		else throw new RuntimeException("blokk.whatAmIPushedInto Error - Could not find wereabouts");
 	}
 	
 	@Override
 	public boolean moveHere(Blokk b) {
-	
 		return false;
-		
 	}
 
 	@Override
@@ -70,5 +85,4 @@ public class Blokk extends LabyrintRute {
 		return shape;
 	}
 
-	
 }

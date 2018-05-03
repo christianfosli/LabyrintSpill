@@ -22,7 +22,6 @@ public class Gang extends LabyrintRute{
 		int nyYpos = b.getYpos();
 		
 		b.setPos(getXpos(), getYpos());
-		
 		this.setPos(nyXpos, nyYpos);
 		
 		return true;
@@ -34,7 +33,5 @@ public class Gang extends LabyrintRute{
 		shape.setStyle(" -fx-fill: burlywood;");
 		return shape;
 	}
-	
-	
 
 }

@@ -12,7 +12,6 @@ public class MenuController {
 
 	private Spillet model;
 	private Stage owner;
-	private Main main;
 	
 	@FXML Menu file;
 	@FXML MenuItem newGameItem;
@@ -28,7 +27,6 @@ public class MenuController {
 	
 	public MenuController(Stage owner,Main main) {
 		this.owner = owner;
-		this.main=main;
 	}
 	
 	public void setModel(Spillet model) {
@@ -48,7 +46,8 @@ public class MenuController {
 	}
 	
 	@FXML public void toggleLights(ActionEvent e) {
-		model.toggleLights();
+		//TODO
+		System.out.println("toggleLights not yet working...");
 	}
 	
 	@FXML public void help(ActionEvent e) {

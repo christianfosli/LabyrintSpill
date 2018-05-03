@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-
 public class Labyrint {
 	
 	private Spillet model;
@@ -50,6 +49,24 @@ public class Labyrint {
 	
 	public int[] getSluttPoint() {
 		return sluttPoint;
+	}
+	
+	/**
+	 * Swaps 2 ruter in labyrinten array.
+	 * Note!!! Before calling this method set the new position in the applicable rute
+	 * @param rute1
+	 * @param rute2
+	 */
+	public void swapRuter(LabyrintRute rute1, LabyrintRute rute2) {
+		labyrinten[rute1.getXpos()][rute1.getYpos()] = rute1;
+		labyrinten[rute2.getXpos()][rute2.getYpos()] = rute2;
+		
+		model.getView().swapNodes(rute1.getPos(), rute2.getPos());
+	}
+	
+	public void replaceRute(LabyrintRute replacedRute, LabyrintRute newRute) {
+		labyrinten[replacedRute.getXpos()][replacedRute.getYpos()] = newRute;
+		model.getView().replaceNode(replacedRute.getPos(), newRute.draw());
 	}
 	
 	public void loadFile(File fileRef) throws IllegalArgumentException {
@@ -96,14 +113,6 @@ public class Labyrint {
 			}
 	}
 
-	public void reDraw(LabyrintRute rute1, LabyrintRute rute2) {
-		labyrinten[rute1.getXpos()][rute1.getYpos()]=rute1;
-		labyrinten[rute2.getXpos()][rute2.getYpos()]=rute2;
-		model.getView().reDraw(rute1.getPos(), rute2.getPos());
-		model.getView().drawSpiller();
-	}
-	
-	
 	/**
 	 * KONVERTERER tegn til Ruter!
 	 * @param c - char som skal konverteres
@@ -145,9 +154,7 @@ public class Labyrint {
 		return rute;
 	}
 
-
 	public Spillet getModel() {
 		return model;
 	}
-	
 }

@@ -5,14 +5,13 @@ import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 import application.Main;
-import controller.HeightListener;
-import controller.WidthListener;
 import javafx.scene.control.MenuBar;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import spiller.Spiller;
 import view.ErrorMessage;
-import view.Labview;
+import view.LabViewGrid;
+import view.View;
 
 public class Spillet {
 
@@ -20,10 +19,9 @@ public class Spillet {
 	private Labyrint labyrinten;
 	private FileChooser fileChooser;
 	private File fileRef;
-	private Labview view;
+	private View view;
 	private MenuBar menuBar;
 	private Main main;
-	private boolean lights;
 	
 	
 	public Spillet(MenuBar menuBar, Main main) {
@@ -31,7 +29,6 @@ public class Spillet {
 		this.menuBar=menuBar;
 		this.main=main;
 		spilleren = new Spiller();
-		lights = true;
 	
 		try {
 			autoLoad();
@@ -69,16 +66,19 @@ public class Spillet {
 	 * Legg inn view, og flytter spiller til startposisjon
 	 * @param view - klasse som har ansvar for aa vise laborinten
 	 */
-	public void initialize(Labview view) {
+	public void initialize(View view) {
 		this.view = view;
 		moveToStart();
 		this.view.makeLab();
-		this.view.drawSpiller();
 		main.getKeyListener().setIsActive(true);
 		
 		//Vindustrls lyttere for automatisk resize:
-		main.getRoot().widthProperty().addListener(new WidthListener(view));
-		main.getRoot().heightProperty().addListener(new HeightListener(view));
+		main.getRoot().widthProperty().addListener(e -> {
+			view.reSize();
+		});
+		main.getRoot().heightProperty().addListener(e -> {
+			view.reSize();
+		});
 	}
 
 	/**
@@ -87,11 +87,11 @@ public class Spillet {
 	 */
 	public void restart() {
 		labyrinten=new Labyrint(fileRef,this);
-		main.getRoot().getChildren().remove(view.get());
-		view = new Labview(this,main.getRoot());
+		main.getRoot().getChildren().remove(view.getViewRegion());
+		view = new LabViewGrid(this,main.getRoot());
 		initialize(view);
-		GridPane viewPane = view.get();
-		main.getRoot().setCenter(viewPane);
+		Region viewRegion = view.getViewRegion();
+		main.getRoot().setCenter(viewRegion);
 	}
 	
 	public void loadNewLabyrint() {
@@ -129,32 +129,16 @@ public class Spillet {
 		posisjon[1] += deltaY;
 		
 		if (labyrinten.getRute(posisjon).moveHere(spilleren))
-				view.animateSpiller(deltaX, deltaY);
-		
-		if (!lights)
-			view.switchOffTheLights();
-		
+				view.movePlayer();
 		
 		if (labyrinten.getRute(posisjon) instanceof Utgang) {
-			view.gameFinished();
+			view.finish();
 			return true;
 		}return false;
 	}
 	
 	public void moveToStart() {
 		labyrinten.getRute(labyrinten.getStartPoint()).moveHere(spilleren);
-	}
-	
-	public void toggleLights() {
-		this.lights = !Boolean.valueOf(lights);
-		
-		if (lights)
-			view.turnTheLightsOn();
-		else {
-			new ErrorMessage("nothing, but.. Warning: Turning off the lights may cause slowness/freezing", 
-					"if you have problems please turn the lights back on");
-			view.switchOffTheLights();
-		}
 	}
 	
 	public Spiller getSpilleren() {
@@ -169,7 +153,7 @@ public class Spillet {
 		return menuBar;
 	}
 	
-	public Labview getView() {
+	public View getView() {
 		return view;
 	}
 	

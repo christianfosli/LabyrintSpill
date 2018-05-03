@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import view.ErrorMessage;
 
 public class AboutWinController {
-
 	Stage stage;
 	@FXML TextArea textArea;
 	
@@ -44,7 +43,6 @@ public class AboutWinController {
 			new ErrorMessage("loading about window", e.getMessage());
 			e.printStackTrace();
 		}
-		
 	}
 	
 	
@@ -69,9 +67,7 @@ public class AboutWinController {
 		reader.close();
 		inn.close();
 		
-		
 		return text;
 	}
-	
 	
 }

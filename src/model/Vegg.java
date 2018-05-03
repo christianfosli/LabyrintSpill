@@ -8,12 +8,10 @@ public class Vegg extends LabyrintRute {
 
 	public Vegg(int xPos, int yPos) {
 		super(xPos, yPos);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean moveHere(Spiller s) {
-		System.out.println("Du traff en vegg ved pos "+ s.getPos()[0] + "," + s.getPos()[1]);
 		return false;
 	}
 

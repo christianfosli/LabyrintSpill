@@ -15,7 +15,6 @@ public class Utgang extends LabyrintRute{
 		s.setPos(this.getPos());
 		s.setFortsette(false);
 		return true;
-		
 	}
 
 	@Override
@@ -31,7 +30,4 @@ public class Utgang extends LabyrintRute{
 		shape.setStyle(" -fx-fill: red; -fx-stroke: white; -fx-stroke-width: 1; -fx-stroke-type: inside; ");
 		return shape;
 	}
-
-	
-	
 }

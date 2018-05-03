@@ -8,11 +8,9 @@ import model.Spillet;
 public class KeyListener implements EventHandler<KeyEvent>{
 	private Spillet model;
 	private boolean isActive;
-	private MenuController menu;
 	
-	public KeyListener(MenuController menu) {
+	public KeyListener() {
 		this.isActive = true;
-		this.menu=menu;
 	}
 
 	/**

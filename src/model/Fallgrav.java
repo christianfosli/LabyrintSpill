@@ -24,8 +24,7 @@ public class Fallgrav extends LabyrintRute {
 
 	@Override
 	public boolean moveHere(Blokk b) {
-		//haandteres i blokk
-		
+		//Blokk will dissapear - but this is done by blokk and Labyrint class
 		return true;
 	}
 	
@@ -36,5 +35,4 @@ public class Fallgrav extends LabyrintRute {
 		return shape;
 	}
 
-	
 }

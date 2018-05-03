@@ -6,12 +6,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import model.Spillet;
-import view.Labview;
+import view.LabViewGrid;
+import view.View;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-
+import javafx.scene.layout.Region;
 
 public class Main extends Application {
 	private Stage owner;
@@ -23,9 +23,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			root = new BorderPane();
-			
 			Scene scene = new Scene(root,600,400);
-			
 			root.prefWidthProperty().bind(scene.widthProperty());
 			root.prefHeightProperty().bind(scene.heightProperty());
 			
@@ -42,23 +40,22 @@ public class Main extends Application {
 			root.setTop(menuBar);
 			
 			//Sett opp lytter til aa navigere spill (ArrowKeys eller hjkl):
-			keyListener = new KeyListener(menuController);
+			keyListener = new KeyListener();
 			scene.setOnKeyPressed(keyListener);
 			
 			//Klar til aa vise vindu!:
-			primaryStage.setTitle("Labyrint Spill - DAT100 Ov9 - av Christian Fosli");
+			primaryStage.setTitle("Labyrint Spill av Christian Fosli");
 			primaryStage.show();
 			
 			//Start spill(model) & view til aa vise laborynt:
 			Spillet model = new Spillet(menuBar, this);
-			Labview view = new Labview(model, root);
+			View view = new LabViewGrid(model, root);
 			model.initialize(view);
-			GridPane viewPane = view.get();
-			root.setCenter(viewPane);
+			Region viewRegion = view.getViewRegion();
+			root.setCenter(viewRegion);
 			
 			menuController.setModel(model);
 			keyListener.setModel(model);
-			
 			
 		} catch(Exception e) {
 			e.printStackTrace();

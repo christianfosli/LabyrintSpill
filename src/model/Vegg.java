@@ -6,8 +6,8 @@ import spiller.Spiller;
 
 public class Vegg extends LabyrintRute {
 
-	public Vegg(int xPos, int yPos) {
-		super(xPos, yPos);
+	public Vegg(int xPos, int yPos, boolean lights) {
+		super(xPos, yPos, lights);
 	}
 
 	@Override
@@ -24,7 +24,8 @@ public class Vegg extends LabyrintRute {
 	@Override
 	public Shape draw() {
 		Shape shape = new Rectangle();
-		shape.setStyle(" -fx-fill: darkgreen; -fx-stroke: olive; -fx-stroke-width: 1; -fx-stroke-type: inside; ");
+		if (isDiscovered()) shape.setStyle(" -fx-fill: darkgreen; -fx-stroke: olive; -fx-stroke-width: 1; -fx-stroke-type: inside; ");
+		else shape.setStyle(hiddenStyle);
 		return shape;
 	}
 

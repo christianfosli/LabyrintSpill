@@ -7,7 +7,7 @@ import spiller.Spiller;
 public class Utgang extends LabyrintRute{
 
 	public Utgang(int xPos, int yPos) {
-		super(xPos, yPos);
+		super(xPos, yPos, true);
 	}
 
 	@Override

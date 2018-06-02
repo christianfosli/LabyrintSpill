@@ -23,7 +23,6 @@ public class Spillet {
 	private MenuBar menuBar;
 	private Main main;
 	
-	
 	public Spillet(MenuBar menuBar, Main main) {
 
 		this.menuBar=menuBar;
@@ -38,7 +37,11 @@ public class Spillet {
 			e.printStackTrace();
 		}
 
+		try {
 		labyrinten = new Labyrint(fileRef,this);
+		} catch (IllegalArgumentException e) {
+			new ErrorMessage("Setting up maze",e.getMessage());
+		}
 	}
 
 	/**
@@ -57,9 +60,7 @@ public class Spillet {
 			fileRef = thisFile;
 			System.out.println("FILE EXISTS!");
 		}
-		else
-			throw new FileNotFoundException();
-	
+		else throw new FileNotFoundException();
 	}
 	
 	/**
@@ -101,7 +102,6 @@ public class Spillet {
 			fileRef = fileChooser.showOpenDialog(main.getOwner());
 			if (fileRef == null)
 				throw new NullPointerException("User has not selected file");
-			
 			restart();
 		} catch (NullPointerException e){
 			fileRef = new File(oldFilePath);
@@ -114,7 +114,6 @@ public class Spillet {
 			restart();
 			new ErrorMessage("Loading laborynt from file. \nPrevious file reloaded",e.getMessage());
 		}
-		
 	}
 	
 	/**
@@ -128,8 +127,9 @@ public class Spillet {
 		posisjon[0] += deltaX;
 		posisjon[1] += deltaY;
 		
-		if (labyrinten.getRute(posisjon).moveHere(spilleren))
-				view.movePlayer();
+		if (labyrinten.getRute(posisjon).moveHere(spilleren)) view.movePlayer();
+		
+		if (!labyrinten.hasLights()) labyrinten.discoverRuter();
 		
 		if (labyrinten.getRute(posisjon) instanceof Utgang) {
 			view.finish();
@@ -156,5 +156,4 @@ public class Spillet {
 	public View getView() {
 		return view;
 	}
-	
 }

@@ -14,11 +14,6 @@
         	<MenuItem mnemonicParsing="false" text="Exit" fx:id="closeItem" onAction="#close" accelerator="Shortcut+W"/>
       </items>
     </Menu>
-    <Menu mnemonicParsing="false" text="_View" fx:id="view">
-    	<items>
-    		<MenuItem mnemonicParsing="false" text="Toggle lights" fx:id="lightToggleItem" onAction="#toggleLights" accelerator="Shortcut+L"/>
-    	</items>
-    </Menu>
     <Menu mnemonicParsing="false" text="_Help" fx:id="help">
       <items>
             <MenuItem mnemonicParsing="false" text="Help/How to..." fx:id="helpItem" onAction="#help" accelerator="Shortcut+H"/>

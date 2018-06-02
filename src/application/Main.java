@@ -53,7 +53,6 @@ public class Main extends Application {
 			model.initialize(view);
 			Region viewRegion = view.getViewRegion();
 			root.setCenter(viewRegion);
-			
 			menuController.setModel(model);
 			keyListener.setModel(model);
 			

@@ -18,9 +18,6 @@ public class MenuController {
 	@FXML MenuItem openItem;
 	@FXML MenuItem closeItem;
 	
-	@FXML Menu view;
-	@FXML MenuItem lightToggleItem;
-	
 	@FXML Menu help;
 	@FXML MenuItem helpItem;
 	@FXML MenuItem aboutItem;

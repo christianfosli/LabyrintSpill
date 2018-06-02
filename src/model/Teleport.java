@@ -7,8 +7,8 @@ import spiller.Spiller;
 public class Teleport extends LabyrintRute{
 	int [] teleportToPos;
 	
-	public Teleport(int xPos, int yPos) {
-		super(xPos, yPos);
+	public Teleport(int xPos, int yPos, boolean lights) {
+		super(xPos, yPos, lights);
 	}
 	
 	public void setTeleportPos(int[] teleportToPos) {
@@ -30,7 +30,8 @@ public class Teleport extends LabyrintRute{
 	@Override
 	public Shape draw() {
 		Shape shape = new Rectangle();
-		shape.setStyle("-fx-fill: transparent; -fx-stroke: darkviolet; -fx-stroke-width: 3; -fx-stroke-type: inside; -fx-stroke-dash-array: 10 10");
+		if (isDiscovered()) shape.setStyle("-fx-fill: transparent; -fx-stroke: darkviolet; -fx-stroke-width: 3; -fx-stroke-type: inside; -fx-stroke-dash-array: 10 10");
+		else shape.setStyle(hiddenStyle);
 		return shape;
 	}
 

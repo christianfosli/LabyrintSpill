@@ -6,8 +6,8 @@ import spiller.Spiller;
 
 public class Gang extends LabyrintRute{
 	
-	public Gang(int xPos, int yPos) {
-		super(xPos, yPos);
+	public Gang(int xPos, int yPos, boolean lights) {
+		super(xPos, yPos, lights);
 	}
 
 	@Override
@@ -30,7 +30,8 @@ public class Gang extends LabyrintRute{
 	@Override
 	public Shape draw() {
 		Shape shape = new Rectangle();
-		shape.setStyle(" -fx-fill: burlywood;");
+		if (isDiscovered()) shape.setStyle(" -fx-fill: burlywood;");
+		else shape.setStyle(hiddenStyle);
 		return shape;
 	}
 

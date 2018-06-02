@@ -11,8 +11,8 @@ public class Blokk extends LabyrintRute {
 	int previousXpos;
 	int previousYpos;
 	
-	public Blokk(int xPos, int yPos, Labyrint labyrinten) {
-		super(xPos, yPos);
+	public Blokk(int xPos, int yPos, boolean lights, Labyrint labyrinten) {
+		super(xPos, yPos, lights);
 		this.labyrinten=labyrinten;
 	}
 
@@ -47,7 +47,7 @@ public class Blokk extends LabyrintRute {
 			if (pushedIntoRute instanceof Gang)
 				labyrinten.swapRuter(this, pushedIntoRute);
 			else
-				labyrinten.replaceRute(this, new Gang(previousXpos, previousYpos));
+				labyrinten.replaceRute(this, new Gang(previousXpos, previousYpos, true));
 			return true;
 		}return false;
 	}
@@ -81,8 +81,8 @@ public class Blokk extends LabyrintRute {
 	@Override
 	public Shape draw() {
 		Shape shape = new Rectangle();
-		shape.setStyle(" -fx-fill: gray; -fx-stroke: darkgray; -fx-stroke-width: 1; -fx-stroke-type: inside;");
+		if (isDiscovered()) shape.setStyle(" -fx-fill: gray; -fx-stroke: darkgray; -fx-stroke-width: 1; -fx-stroke-type: inside;");
+		else shape.setStyle(hiddenStyle);
 		return shape;
 	}
-
 }

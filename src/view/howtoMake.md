@@ -2,7 +2,9 @@
 
 Mazes must be saved as text files, and must follow the following syntax:
 
- They must start with number of columns, then number of rows on the line below,
+ First line: number of columns, 
+ Second line: number of rows,
+ Third line: 'lights:on' or 'lights:off',
  followed by characters 'making up' the maze.
 	* '#'	wall
 	* ' '	floor
@@ -23,10 +25,11 @@ they will be loaded automatically upon launch.
 Example of a maze .txt file:
  11
  7
+ lights:off
  #####-####
  #*  #h#  #
  #+++#x#  #
  #x x    +#
  #   ++   #
- #        #
+ #       t#
  ##########

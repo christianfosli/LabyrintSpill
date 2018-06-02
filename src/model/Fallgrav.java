@@ -8,8 +8,8 @@ public class Fallgrav extends LabyrintRute {
 
 	private int[] startPos;
 	
-	public Fallgrav(int xPos, int yPos) {
-		super(xPos, yPos);
+	public Fallgrav(int xPos, int yPos, boolean lights) {
+		super(xPos, yPos, lights);
 	}
 	
 	public void setStartPos(int[] startPos) {
@@ -31,7 +31,8 @@ public class Fallgrav extends LabyrintRute {
 	@Override
 	public Shape draw() {
 		Shape shape = new Rectangle();
-		shape.setStyle("-fx-fill: transparent; -fx-stroke: red; -fx-stroke-width: 3; -fx-stroke-type: inside; -fx-stroke-dash-array: 10 10");
+		if (isDiscovered()) shape.setStyle("-fx-fill: transparent; -fx-stroke: red; -fx-stroke-width: 3; -fx-stroke-type: inside; -fx-stroke-dash-array: 10 10");
+		else shape.setStyle(hiddenStyle);
 		return shape;
 	}
 

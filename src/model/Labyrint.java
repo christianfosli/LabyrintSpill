@@ -15,6 +15,7 @@ public class Labyrint {
 	private int height;
 	private int[] startPoint; 
 	private int[] sluttPoint; 
+	private boolean lights;
 
 	private List<LabyrintRute> teleportTo;
 	
@@ -51,6 +52,26 @@ public class Labyrint {
 		return sluttPoint;
 	}
 	
+	public void discoverRuter() {
+		int xPos = model.getSpilleren().getPos()[0];
+		int yPos = model.getSpilleren().getPos()[1];
+		// Don't go out of bounds:
+		if (xPos == 0) xPos = 1;
+		else if (xPos == width-1) xPos = width-2;
+		if (yPos == 0) yPos = 1;
+		else if (yPos == height-1) yPos = height-2;
+		
+		// Discover ruter:
+		for (int y = yPos-1;y<=yPos+1;y++)
+			for (int x = xPos-1;x<=xPos+1;x++) {
+				LabyrintRute ruten = labyrinten[x][y];
+				if (!ruten.isDiscovered()) {
+					ruten.discover();
+					model.getView().replaceNode(new int[] {x,y}, ruten.draw());
+				}
+			}
+	}
+	
 	/**
 	 * Swaps 2 ruter in labyrinten array.
 	 * Note!!! Before calling this method set the new position in the applicable rute
@@ -76,6 +97,13 @@ public class Labyrint {
 			
 			width = Integer.parseInt(inn.nextLine());
 			height = Integer.parseInt(inn.nextLine());
+			
+			String lightsStr = inn.nextLine();
+			if (lightsStr.equals("lights:on")) lights = true;
+			else if (lightsStr.equals("lights:off")) lights = false;
+			else throw new IllegalArgumentException(String.format("Labyrint.loadFile err-"
+					+ " line 3 should be lights:off/on, but is %s",lightsStr));
+			
 			char[] txtline = new char[width];
 			
 			labyrinten = new LabyrintRute[width][height];
@@ -86,7 +114,6 @@ public class Labyrint {
 				for (int x = 0; x<width; x++) 
 						labyrinten[x][y] = makeRute(txtline[x],x,y);
 			}
-			
 			giveRuterNeededInfo();
 			
 			System.out.println("Labyrint loaded from file");
@@ -116,8 +143,6 @@ public class Labyrint {
 	/**
 	 * KONVERTERER tegn til Ruter!
 	 * @param c - char som skal konverteres
-	 * 		Vegg: '#'	Gang: ' '	Utgang: '-'	Start: '*'	Blokk: '+'	Fallgrav: 'x'
-	 * 		Teleporter fra: 't'		Teleporter til: 'h'
 	 * @param xPos
 	 * @param yPos
 	 * @return
@@ -125,36 +150,31 @@ public class Labyrint {
 	private LabyrintRute makeRute(char c, int xPos, int yPos) {
 		LabyrintRute rute;
 		
-		if (c == '#')
-			rute = new Vegg(xPos, yPos);
-		else if (c == ' ')
-			rute = new Gang(xPos, yPos);
+		if (c == ' ') rute = new Gang(xPos, yPos, lights);
+		else if (c == '#') rute = new Vegg(xPos, yPos, lights);
+		else if (c == '+') rute = new Blokk(xPos, yPos, lights, this);
+		else if (c == 'x') rute = new Fallgrav(xPos,yPos, lights);
+		else if (c == 't') rute = new Teleport(xPos, yPos, lights);
 		else if (c == '-' ) {
 			rute = new Utgang(xPos, yPos);
 			this.sluttPoint = new int[]{xPos,yPos};
-		}
-		else if (c == '*') {
-			rute = new Gang(xPos, yPos);
+		}else if (c == '*') {
+			rute = new Gang(xPos, yPos, true);
 			this.startPoint = new int[]{xPos,yPos};
-		}else if (c == '+')
-			rute = new Blokk(xPos, yPos, this);
-		else if (c == 'x')
-			rute = new Fallgrav(xPos,yPos);
-		else if (c == 't')
-			rute = new Teleport(xPos, yPos);
-		else if (c == 'h') {
-			rute = new Gang(xPos,yPos);
+		}else if (c == 'h') {
+			rute = new Gang(xPos,yPos, lights);
 			this.teleportTo.add(rute);
-		}
-		else {
-			String feilmelding = String.format("Char %c cannot be converted to a rute", c);
-			throw new IllegalArgumentException(feilmelding);
-		}
+		}else throw new IllegalArgumentException(String.format("Labyrint.makeRute - "
+					+ "illegal char: %c in at pos %d, %d", c,xPos,yPos));
 		
 		return rute;
 	}
 
 	public Spillet getModel() {
 		return model;
+	}
+	
+	public boolean hasLights() {
+		return lights;
 	}
 }

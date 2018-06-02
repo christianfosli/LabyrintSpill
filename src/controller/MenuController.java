@@ -3,24 +3,16 @@ package controller;
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.Spillet;
+import view.InfoMessage;
 
 public class MenuController {
 
 	private Spillet model;
 	private Stage owner;
-	
-	@FXML Menu file;
-	@FXML MenuItem newGameItem;
-	@FXML MenuItem openItem;
-	@FXML MenuItem closeItem;
-	
-	@FXML Menu help;
-	@FXML MenuItem helpItem;
-	@FXML MenuItem aboutItem;
+	@FXML MenuItem nextLevel;
 	
 	public MenuController(Stage owner,Main main) {
 		this.owner = owner;
@@ -34,17 +26,26 @@ public class MenuController {
 		model.restart();
 	}
 	
+	@FXML public void nextLevel(ActionEvent e) {
+		model.loadNextLevel();
+		if (!model.hasNextLevel()) {
+			nextLevel.setDisable(true);
+			new InfoMessage("You have selected the last level",
+					"You can create more levels, if you like. See the help section");
+		}
+	}
+	
+	@FXML public void previousLevel(ActionEvent e) {
+		model.loadPreviousLevel();
+		if (nextLevel.isDisable()) if (model.hasNextLevel()) nextLevel.setDisable(false);
+	}
+	
 	@FXML public void close(ActionEvent e) {
 		owner.close();
 	}
 	
 	@FXML public void open(ActionEvent e) {
 		model.loadNewLabyrint();
-	}
-	
-	@FXML public void toggleLights(ActionEvent e) {
-		//TODO
-		System.out.println("toggleLights not yet working...");
 	}
 	
 	@FXML public void help(ActionEvent e) {

@@ -1,12 +1,44 @@
-# Labyrint Spill
-## By Christian Fosli, for class dat100 at University of Stavanger
+# Labyrint Spill / Maze Game
 
-The game loads a text file (see labyrint.txt for an example) into a maze.
-The goal of the game is too reach the finish box.
+## Description
 
-It was a school exercise, primarally to practice making GUI applications,
-and reading from text files.
+The game loads a maze from a text file with the specified format into a maze.
+The goal of the game is too reach the exit.
 
-Screenshot:
+## Background
 
-![image](https://christianfosli.github.io/img/labyrintScreenShot.jpg)
+The game started as a school exercise, for the class DAT100 at University of Stavanger.
+We were working on making making GUI applications using JavaFX, and
+and reading from text files. 
+However, I have since added several features and improvements.
+
+## Features
+
+### Blocks, Teleporters
+
+The maze includes blocks, which the player pushes around in the maze.
+You can not push more than one block at a time, and cannot push
+a block into a bush. If you push a block into a teleporter the block
+disappears.
+
+There are two types of teleporters. The ones with red stroke teleports the player
+back to the start position. The ones with purple stroke teleports the player to another
+location on the maze, specified in the maze text file, but unknown to the player.
+
+![](https://christianfosli.github.io/img/Labyrint_020.jpg)
+
+### Levels
+
+I have created 5 maze textfiles. These are located in the levels directory of the REPO,
+and are automatically recognized as levels upon launch.
+
+![](https://christianfosli.github.io/img/Labyrint_020_levels.jpg)
+
+If you download the game as a .JAR file, the maze directory needs to be placed in the 
+same directory as the .JAR file.
+
+### Dynamic scaling
+
+The game is resizable, and automatically scales according to window size.
+
+![](https://christianfosli.github.io/img/Labyrint_020_scaling.jpg)

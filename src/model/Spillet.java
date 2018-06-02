@@ -19,6 +19,8 @@ public class Spillet {
 	private Labyrint labyrinten;
 	private FileChooser fileChooser;
 	private File fileRef;
+	private String levelPath;
+	private int currentLevel;
 	private View view;
 	private MenuBar menuBar;
 	private Main main;
@@ -28,8 +30,10 @@ public class Spillet {
 		this.menuBar=menuBar;
 		this.main=main;
 		spilleren = new Spiller();
+		currentLevel=1;
 	
 		try {
+			setLevelPath();
 			autoLoad();
 		} catch (Exception e) {
 			fileChooser = new FileChooser();
@@ -52,15 +56,22 @@ public class Spillet {
 	 */
 	public void autoLoad() throws URISyntaxException, FileNotFoundException {
 		
-		File thisPath = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-		String filepath = thisPath.getParent() + File.separator + "labyrint.txt";
-		File thisFile = new File(filepath);
+		File thisFile = new File(levelPath + "level" + currentLevel + ".txt");
 		
 		if (thisFile.exists()) {
 			fileRef = thisFile;
-			System.out.println("FILE EXISTS!");
+			System.out.println("FILE EXISTS! - level "+currentLevel);
 		}
 		else throw new FileNotFoundException();
+	}
+	
+	private void setLevelPath() throws URISyntaxException{
+		File thisPath = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+		levelPath = thisPath.getParent() + File.separator + "levels" + File.separator;
+	}
+	
+	public boolean hasNextLevel() {
+		return (new File(levelPath + "level" + (currentLevel+1) + ".txt").exists());
 	}
 	
 	/**
@@ -93,6 +104,29 @@ public class Spillet {
 		initialize(view);
 		Region viewRegion = view.getViewRegion();
 		main.getRoot().setCenter(viewRegion);
+	}
+
+	public void loadNextLevel() {
+		this.currentLevel++;
+		try {
+			autoLoad();
+			restart();
+		}catch (Exception e) {
+			this.currentLevel--;
+			new ErrorMessage("loading next level",e.getMessage());
+		}
+	}
+	
+	public void loadPreviousLevel() {
+		this.currentLevel--;
+		try {
+			if (currentLevel == 1) throw new RuntimeException("This already is the first level");
+			autoLoad();
+			restart();
+		}catch (Exception e) {
+			this.currentLevel++;
+			new ErrorMessage("loading previous level",e.getMessage());
+		}
 	}
 	
 	public void loadNewLabyrint() {
@@ -156,4 +190,9 @@ public class Spillet {
 	public View getView() {
 		return view;
 	}
+	
+	public int getCurrentLevel() {
+		return currentLevel;
+	}
+	
 }

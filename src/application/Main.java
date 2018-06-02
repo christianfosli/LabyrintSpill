@@ -44,7 +44,7 @@ public class Main extends Application {
 			scene.setOnKeyPressed(keyListener);
 			
 			//Klar til aa vise vindu!:
-			primaryStage.setTitle("Labyrint Spill av Christian Fosli");
+			primaryStage.setTitle("Labyrint Spill / Maze Game");
 			primaryStage.show();
 			
 			//Start spill(model) & view til aa vise laborynt:

@@ -26,14 +26,13 @@ public class KeyListener implements EventHandler<KeyEvent>{
 		if (!isActive)
 			return;
 		
-		
-		if (e.getCode().equals(KeyCode.RIGHT) || e.getCode().toString().toUpperCase().equals("L") && !e.isShortcutDown())
+		if (e.getCode().equals(KeyCode.RIGHT) || e.getText().equals("l"))
 			isActive = ! model.move(1, 0);
-		else if (e.getCode().equals(KeyCode.LEFT) || e.getCode().toString().toUpperCase().equals("H") && !e.isShortcutDown())
+		else if (e.getCode().equals(KeyCode.LEFT) || e.getText().equals("h") && !e.isShortcutDown())
 			isActive = ! model.move(-1, 0);
-		else if (e.getCode().equals(KeyCode.UP) || e.getCode().toString().toUpperCase().equals("K") && !e.isShortcutDown())
+		else if (e.getCode().equals(KeyCode.UP) || e.getText().equals("k"))
 			isActive = ! model.move(0, -1);
-		else if (e.getCode().equals(KeyCode.DOWN) || e.getCode().toString().toUpperCase().equals("J") && !e.isShortcutDown())
+		else if (e.getCode().equals(KeyCode.DOWN) || e.getText().equals("j"))
 			isActive = ! model.move(0, 1);
 	}
 	

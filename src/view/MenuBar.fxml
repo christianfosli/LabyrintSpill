@@ -7,17 +7,23 @@
 
 <MenuBar prefHeight="13.0" prefWidth="352.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1">
   <menus>
-    <Menu mnemonicParsing="false" text="_File" fx:id="file">
+    <Menu mnemonicParsing="false" text="_File">
       <items>
-            <MenuItem mnemonicParsing="false" text="New game" fx:id="newGameItem" onAction="#newGame" accelerator="Shortcut+N" />
-            <MenuItem mnemonicParsing="false" text="Open labyrint" fx:id="openItem" onAction="#open" accelerator="Shortcut+O"/>
-        	<MenuItem mnemonicParsing="false" text="Exit" fx:id="closeItem" onAction="#close" accelerator="Shortcut+W"/>
+            <MenuItem mnemonicParsing="false" text="Open labyrint File" onAction="#open" accelerator="Shortcut+O"/>
+        	<MenuItem mnemonicParsing="false" text="Exit" onAction="#close" accelerator="Shortcut+W"/>
       </items>
     </Menu>
-    <Menu mnemonicParsing="false" text="_Help" fx:id="help">
+    <Menu mnemonicParsing="false" text="_Levels">
       <items>
-            <MenuItem mnemonicParsing="false" text="Help/How to..." fx:id="helpItem" onAction="#help" accelerator="Shortcut+H"/>
-        <MenuItem mnemonicParsing="false" text="About" fx:id="aboutItem" onAction="#about"/>
+            <MenuItem mnemonicParsing="false" text="Restart level" onAction="#newGame" accelerator="0" />
+            <MenuItem mnemonicParsing="false" text="Next level" fx:id="nextLevel" onAction="#nextLevel" accelerator="n" />
+            <MenuItem mnemonicParsing="false" text="Previous level" onAction="#previousLevel" accelerator="b"/>
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="_Help">
+      <items>
+            <MenuItem mnemonicParsing="false" text="Help/How to" onAction="#help" accelerator="Shortcut+H"/>
+        <MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
       </items>
     </Menu>
   </menus>

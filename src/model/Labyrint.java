@@ -166,7 +166,6 @@ public class Labyrint {
 			this.teleportTo.add(rute);
 		}else throw new IllegalArgumentException(String.format("Labyrint.makeRute - "
 					+ "illegal char: %c in at pos %d, %d", c,xPos,yPos));
-		
 		return rute;
 	}
 

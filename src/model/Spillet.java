@@ -48,13 +48,8 @@ public class Spillet {
 		}
 	}
 
-	/**
-	 * Automatisk aapne fil ved navn 'labyrint.txt' i samme mappe som .JAR fil om den eksisterer
-	 * @return true-filen eksisterer, er satt til fileREf  // false-filen eksisterer ikke
-	 * @throws URISyntaxException
-	 * @throws FileNotFoundException 
-	 */
 	public void autoLoad() throws URISyntaxException, FileNotFoundException {
+		//Opens and loads the current level in specified levelPath
 		
 		File thisFile = new File(levelPath + "level" + currentLevel + ".txt");
 		
@@ -75,7 +70,7 @@ public class Spillet {
 	}
 	
 	/**
-	 * Legg inn view, og flytter spiller til startposisjon
+	 * Legg inn view, flytter spiller til startposisjon, setter opp auto-resize
 	 * @param view - klasse som har ansvar for aa vise laborinten
 	 */
 	public void initialize(View view) {
@@ -93,11 +88,9 @@ public class Spillet {
 		});
 	}
 
-	/**
-	 * Reloads maze from file (for performance reasons),
-	 * and places everything back to usual`
-	 */
 	public void restart() {
+		// Reloads maze from file
+		
 		labyrinten=new Labyrint(fileRef,this);
 		main.getRoot().getChildren().remove(view.getViewRegion());
 		view = new LabViewGrid(this,main.getRoot());
@@ -130,8 +123,10 @@ public class Spillet {
 	}
 	
 	public void loadNewLabyrint() {
+		//Opens a File Chooser, and lets user specify which file to open
+		
 		fileChooser = new FileChooser();
-		String oldFilePath = fileRef.getPath(); //I tilfelle problemer med aa laste ny fil resette til gamle
+		String oldFilePath = fileRef.getPath(); //If problems go back to oldFilePath
 		try {
 			fileRef = fileChooser.showOpenDialog(main.getOwner());
 			if (fileRef == null)

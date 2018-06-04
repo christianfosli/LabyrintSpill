@@ -105,20 +105,20 @@ public class Spillet {
 			autoLoad();
 			restart();
 		}catch (Exception e) {
+			new ErrorMessage("loading level"+currentLevel,e.getMessage());
 			this.currentLevel--;
-			new ErrorMessage("loading next level",e.getMessage());
 		}
 	}
 	
 	public void loadPreviousLevel() {
 		this.currentLevel--;
 		try {
-			if (currentLevel == 1) throw new RuntimeException("This already is the first level");
+			if (currentLevel == 0) throw new RuntimeException("You are already at the first level - level "+currentLevel+1);
 			autoLoad();
 			restart();
 		}catch (Exception e) {
+			new ErrorMessage("loading level "+currentLevel,e.getMessage());
 			this.currentLevel++;
-			new ErrorMessage("loading previous level",e.getMessage());
 		}
 	}
 	

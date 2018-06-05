@@ -5,7 +5,6 @@ import javafx.scene.shape.Shape;
 import spiller.Spiller;
 
 public class Fallgrav extends LabyrintRute {
-
 	private int[] startPos;
 	
 	public Fallgrav(int xPos, int yPos, boolean lights) {
@@ -35,5 +34,4 @@ public class Fallgrav extends LabyrintRute {
 		else shape.setStyle(hiddenStyle);
 		return shape;
 	}
-
 }

@@ -17,7 +17,6 @@ public class Vegg extends LabyrintRute {
 
 	@Override
 	public boolean moveHere(Blokk b) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

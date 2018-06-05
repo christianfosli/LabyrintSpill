@@ -8,7 +8,6 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Labyrint {
-	
 	private Spillet model;
 	private LabyrintRute[][] labyrinten;
 	private int width;
@@ -16,40 +15,11 @@ public class Labyrint {
 	private int[] startPoint; 
 	private int[] sluttPoint; 
 	private boolean lights;
-
 	private List<LabyrintRute> teleportTo;
 	
 	public Labyrint(File fileRef, Spillet model) {
 		this.model=model;
 		loadFile(fileRef);
-	}
-	
-	public LabyrintRute[][] getRuter(){
-		return labyrinten;
-	}
-	
-	public LabyrintRute getRute(int[]posisjon) {
-		return labyrinten[posisjon[0]][posisjon[1]];
-	}
-	
-	public LabyrintRute getRute(int xPos, int yPos) {
-		return labyrinten[xPos][yPos];
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	
-	public int[] getStartPoint() {
-		return startPoint;
-	}
-	
-	public int[] getSluttPoint() {
-		return sluttPoint;
 	}
 	
 	public void discoverRuter() {
@@ -94,7 +64,6 @@ public class Labyrint {
 		teleportTo = new ArrayList<LabyrintRute>();
 		
 		try (Scanner inn = new Scanner(fileRef)){	
-			
 			width = Integer.parseInt(inn.nextLine());
 			height = Integer.parseInt(inn.nextLine());
 			
@@ -115,7 +84,6 @@ public class Labyrint {
 						labyrinten[x][y] = makeRute(txtline[x],x,y);
 			}
 			giveRuterNeededInfo();
-			
 			System.out.println("Labyrint loaded from file");
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Errors trying to open the specified file "+e.getMessage());
@@ -168,11 +136,35 @@ public class Labyrint {
 					+ "illegal char: %c in at pos %d, %d", c,xPos,yPos));
 		return rute;
 	}
-
+	
+	public boolean spillerAtExit() {
+		if (getRute(model.getSpilleren().getPos()) instanceof Utgang) return true;
+		return false;
+	}
+	public LabyrintRute[][] getRuter(){
+		return labyrinten;
+	}
+	public LabyrintRute getRute(int[]posisjon) {
+		return labyrinten[posisjon[0]][posisjon[1]];
+	}
+	public LabyrintRute getRute(int xPos, int yPos) {
+		return labyrinten[xPos][yPos];
+	}
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public int[] getStartPoint() {
+		return startPoint;
+	}
+	public int[] getSluttPoint() {
+		return sluttPoint;
+	}
 	public Spillet getModel() {
 		return model;
 	}
-	
 	public boolean hasLights() {
 		return lights;
 	}

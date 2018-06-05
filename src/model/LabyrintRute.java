@@ -23,18 +23,15 @@ public abstract class LabyrintRute {
 	public int getXpos() {
 		return this.xPos;
 	}
-	
 	public int getYpos() {
 		return this.yPos;
 	}
-	
 	public int[] getPos() {
 		int[] position = new int[2];
 		position[0]=xPos;
 		position[1]=yPos;
 		return position;
 	}
-	
 	public boolean isDiscovered() {
 		return discovered;
 	}
@@ -43,12 +40,10 @@ public abstract class LabyrintRute {
 		xPos = pos[0];
 		yPos = pos[1];
 	}
-	
 	public void setPos(int xPos, int yPos) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 	}
-	
 	public void discover() {
 		discovered = true;
 	}

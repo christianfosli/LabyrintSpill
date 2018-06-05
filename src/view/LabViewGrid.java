@@ -25,7 +25,7 @@ public class LabViewGrid implements View{
 		this.model = model;
 		grid = new GridPane();
 		
-		//Enable dynamic resizing:
+		//Dynamic resizing of GridPane:
 		grid.prefWidthProperty().bind(this.root.widthProperty());
 		grid.prefHeightProperty().bind(this.root.heightProperty().subtract(this.model.getMenuBar().heightProperty()));
 	}
@@ -82,7 +82,7 @@ public class LabViewGrid implements View{
 		int yPos = model.getSpilleren().getPos()[1];
 		int size = getLowestRuteSize();
 		
-		if (!(spiller == null))
+		if (spiller != null)
 			grid.getChildren().remove(spiller);
 		
 		spiller = model.getSpilleren().draw(size);
@@ -108,7 +108,6 @@ public class LabViewGrid implements View{
 		rute.widthProperty().bind(grid.prefWidthProperty().divide(model.getLabyrinten().getWidth()));
 		//Legge til i grid:
 		grid.add(rute, pos[0], pos[1]);
-		
 	}
 
 	@Override
@@ -163,5 +162,4 @@ public class LabViewGrid implements View{
 	public Region getViewRegion() {
 		return grid;
 	}
-	
 }

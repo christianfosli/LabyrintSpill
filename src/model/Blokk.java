@@ -6,7 +6,6 @@ import spiller.Spiller;
 import view.ErrorMessage;
 
 public class Blokk extends LabyrintRute {
-
 	private Labyrint labyrinten;
 	int previousXpos;
 	int previousYpos;
@@ -18,7 +17,6 @@ public class Blokk extends LabyrintRute {
 
 	@Override
 	public boolean moveHere(Spiller s) {
-		
 		previousXpos = this.getXpos();
 		previousYpos = this.getYpos();
 		LabyrintRute pushedIntoRute;
@@ -35,15 +33,11 @@ public class Blokk extends LabyrintRute {
 			s.setPos(new int[] {previousXpos, previousYpos});
 			return true;
 		}return false;
-
 	}
 	
 	private boolean moveSelf(LabyrintRute pushedIntoRute) {
-		
 		boolean moved = pushedIntoRute.moveHere(this);
-		
 		if (moved) {
-			
 			if (pushedIntoRute instanceof Gang)
 				labyrinten.swapRuter(this, pushedIntoRute);
 			else

@@ -19,7 +19,6 @@ public class Utgang extends LabyrintRute{
 
 	@Override
 	public boolean moveHere(Blokk b) {
-		
 		return false;
 	}
 

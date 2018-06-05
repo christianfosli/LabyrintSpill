@@ -3,7 +3,7 @@
 ## Description
 
 The game loads a maze from a text file with the specified format into a maze.
-The goal of the game is too reach the exit.
+The goal of the game is to reach the exit.
 
 ## Background
 
@@ -17,7 +17,7 @@ However, I have since added several features and improvements.
 ### Blocks, Teleporters
 
 The maze includes blocks, which the player pushes around in the maze.
-You can not push more than one block at a time, and cannot push
+You cannot push more than one block at a time, and cannot push
 a block into a bush. If you push a block into a teleporter the block
 disappears.
 
@@ -29,7 +29,7 @@ location on the maze, specified in the maze text file, but unknown to the player
 
 ### Levels
 
-I have created 5 maze text files. These are located in the levels directory of the REPO,
+I have created 5 maze text files. These are located in the levels directory of the repo,
 and are automatically recognized as levels upon launch.
 
 ![](https://christianfosli.github.io/img/Labyrint_020_levels.jpg)

@@ -13,6 +13,7 @@ public class Gang extends LabyrintRute{
 	@Override
 	public boolean moveHere(Spiller s) {
 		s.setPos(this.getPos());
+		s.setPoeng(s.getPoeng()+1);//Used to count steps
 		return true;
 	}
 

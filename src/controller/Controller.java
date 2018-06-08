@@ -15,8 +15,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.Spillet;
+import spiller.Spiller;
 import view.ErrorMessage;
 import view.InfoMessage;
 
@@ -60,6 +63,14 @@ public class Controller {
 	
 	@FXML public void open(ActionEvent e) {
 		model.loadNewLabyrint();
+	}
+	
+	@FXML public void scores(ActionEvent e) {
+		String scoreStr = "";
+		for (Spiller s : model.getLabyrinten().getWinners()) scoreStr += s + "\n";
+		Alert scoreWin = new Alert(AlertType.INFORMATION,scoreStr);
+		scoreWin.setHeaderText("High score list for current level");
+		scoreWin.show();
 	}
 	
 	@FXML public void help(ActionEvent e) {

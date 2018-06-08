@@ -18,6 +18,7 @@ public class Fallgrav extends LabyrintRute {
 	@Override
 	public boolean moveHere(Spiller s) {
 		s.setPos(startPos);
+		s.setPoeng(s.getPoeng()+1);//Used to count steps
 		return true;
 	}
 

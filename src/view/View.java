@@ -15,7 +15,7 @@ public interface View {
 	
 	void reSize(); 
 	
-	void finish();
+	void finish(int steps, int rekord);
 	
 	Region getViewRegion();
 

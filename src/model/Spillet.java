@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import application.Main;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import spiller.Spiller;
@@ -115,7 +116,17 @@ public class Spillet {
 		
 		if (labyrinten.getRute(posisjon).moveHere(spilleren)) view.movePlayer();
 		if (!labyrinten.hasLights()) labyrinten.discoverRuter();
-		if (labyrinten.spillerAtExit()) view.finish();
+		if (labyrinten.spillerAtExit()) {
+			view.finish(spilleren.getPoeng(),labyrinten.getWinner().getPoeng());
+			if (spilleren.getPoeng() <= labyrinten.getMaxStepsForScoreList()) {
+				TextInputDialog scoreDialog = new TextInputDialog();
+				scoreDialog.setHeaderText("You made the high score list!");
+				scoreDialog.setContentText("Please enter your name");
+				scoreDialog.showAndWait();
+				spilleren.setNavn(scoreDialog.getEditor().getText());
+				labyrinten.addWinner(spilleren);
+			}
+		}
 	}
 	
 	private void autoLoad() throws URISyntaxException, FileNotFoundException {
@@ -141,6 +152,7 @@ public class Spillet {
 	private void initialize() {
 		//Move spiller to start:
 		labyrinten.getRute(labyrinten.getStartPoint()).moveHere(spilleren);
+		spilleren.setPoeng(0);
 		//Set up view:
 		this.view = new LabViewGrid(this,main.getRoot());
 		this.view.makeLab();

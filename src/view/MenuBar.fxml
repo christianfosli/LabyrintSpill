@@ -20,10 +20,15 @@
             <MenuItem mnemonicParsing="false" text="Previous level" onAction="#previousLevel" accelerator="b"/>
       </items>
     </Menu>
+    <Menu mnemonicParsing="false" text="_Scores">
+      <items>
+            <MenuItem mnemonicParsing="false" text="View ScoreList" onAction="#scores" accelerator="Shortcut+S"/>
+      </items>
+    </Menu>
     <Menu mnemonicParsing="false" text="_Help">
       <items>
             <MenuItem mnemonicParsing="false" text="Help/How to" onAction="#help" accelerator="Shortcut+H"/>
-        <MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
+			<MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
       </items>
     </Menu>
   </menus>

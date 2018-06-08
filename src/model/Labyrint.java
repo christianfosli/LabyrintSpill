@@ -1,11 +1,19 @@
 package model;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import spiller.Spiller;
+import view.ErrorMessage;
 
 public class Labyrint {
 	private Spillet model;
@@ -14,12 +22,15 @@ public class Labyrint {
 	private int height;
 	private int[] startPoint; 
 	private int[] sluttPoint; 
+	private Spiller[] winners;
+	private File winnerFile;
 	private boolean lights;
 	private List<LabyrintRute> teleportTo;
 	
 	public Labyrint(File fileRef, Spillet model) {
 		this.model=model;
 		loadFile(fileRef);
+		loadWinners(fileRef);
 	}
 	
 	public void discoverRuter() {
@@ -92,11 +103,38 @@ public class Labyrint {
 					+ "See 'help' section for format requirements. \n Details: "+e.getMessage());
 		} 
 	}
+
+	public void addWinner(Spiller s) throws IllegalArgumentException{
+		if (s.getPoeng() > getMaxStepsForScoreList())
+			throw new IllegalArgumentException("Too many steps for ScoreList");
+		winners[getScoreListIndex(s.getPoeng())] = s;
+		writeWinners();
+	}
+	
+	private int getScoreListIndex(int steps) {
+		for (int i = 0; i < winners.length; i++) {
+			try {
+				if (steps < winners[i].getPoeng()) {
+					pushScoreListDown(i);
+					return i;
+				}
+			} catch (NullPointerException e) {
+				return i;
+			}
+		}throw new IllegalArgumentException("Too many steps for ScoreList");
+	}
+	
+	private void pushScoreListDown(int index) {
+		for (int i = winners.length-1; i > index; i--) {
+			winners[i] = winners[i-1];
+		}
+	}
+
 	/**
 	 * Fallgrav trenger start pos
 	 * Teleport ruter trenger hvor de skal teleporteres til
 	 */
-	public void giveRuterNeededInfo() {
+	private void giveRuterNeededInfo() {
 		for (LabyrintRute[] rArray : labyrinten)
 			for (LabyrintRute r : rArray) {
 				if (r instanceof Fallgrav)
@@ -137,6 +175,48 @@ public class Labyrint {
 		return rute;
 	}
 	
+	private void loadWinners(File levelFile) {
+		winnerFile = getWinnerFile(levelFile);
+		
+		if (winnerFile.exists()){
+			try (FileInputStream inn = new FileInputStream(winnerFile);
+					ObjectInputStream reader = new ObjectInputStream(inn);){
+				Object o = reader.readObject();
+				if (o instanceof Spiller[]) winners = (Spiller[]) o;
+			}catch (IOException e) {
+				new ErrorMessage("loading winner-scores",e.getMessage());
+				winners = new Spiller[10];
+			}catch (ClassNotFoundException e) {
+				new ErrorMessage("loading winner-scores",e.getMessage());
+				winners = new Spiller[10];
+			}
+		}else winners = new Spiller[10];
+	}
+	
+	private void writeWinners() {
+		try (FileOutputStream out = new FileOutputStream(winnerFile);
+				ObjectOutputStream writer = new ObjectOutputStream(out);){
+			writer.writeObject(winners);
+		} catch (FileNotFoundException e) {
+			try {
+				// If file doesnt exist, create it, and try again:
+				if (winnerFile.createNewFile()) writeWinners();
+				else new ErrorMessage("saving winners to file",e.getMessage());
+			} catch (IOException e1) {
+				new ErrorMessage("saving winners to file",e.getMessage());
+			}
+		} catch (IOException e) {
+			new ErrorMessage("saving winners to file",e.getMessage());
+		}
+	}
+	
+	private File getWinnerFile(File levelFile) {
+		String str = levelFile.toString();
+		char level = str.charAt(str.length()-5);
+		String winPath = levelFile.getParent() + File.separator + "winners_L" + level;
+		return new File(winPath);
+	}
+	
 	public boolean spillerAtExit() {
 		if (getRute(model.getSpilleren().getPos()) instanceof Utgang) return true;
 		return false;
@@ -167,5 +247,20 @@ public class Labyrint {
 	}
 	public boolean hasLights() {
 		return lights;
+	}
+	public Spiller[] getWinners() {
+		return winners;
+	}
+	public Spiller getWinner() {
+		if (winners[0] == null) {
+			Spiller noWinnerYet = new Spiller();
+			noWinnerYet.setPoeng(999);
+			return noWinnerYet;
+		}
+		return winners[0];
+	}
+	public int getMaxStepsForScoreList() {
+		if (winners[winners.length-1] == null) return 999;//Listen ikke full
+		return winners[winners.length-1].getPoeng()-1;
 	}
 }

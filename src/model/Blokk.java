@@ -31,6 +31,7 @@ public class Blokk extends LabyrintRute {
 		
 		if (moveSelf(pushedIntoRute)) {
 			s.setPos(new int[] {previousXpos, previousYpos});
+			s.setPoeng(s.getPoeng()+1);//Used to count steps
 			return true;
 		}return false;
 	}

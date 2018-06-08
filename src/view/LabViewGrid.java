@@ -19,6 +19,7 @@ public class LabViewGrid implements View{
 	private Shape spiller;
 	private Text exitSign;
 	private Text winning;
+	private Text subMessage;
 	
 	public LabViewGrid(Spillet model, BorderPane root) {
 		this.root = root;
@@ -146,16 +147,26 @@ public class LabViewGrid implements View{
 	}
 	
 	@Override
-	public void finish() {
-		Font font = new Font((int)Math.round(grid.getWidth()*0.07));
+	public void finish(int steps, int rekord) {
+		Font winFont = new Font((int)Math.round(grid.getWidth()*0.07));
+		Font subFont = new Font((int)Math.round(grid.getWidth()*0.05));
 		
 		winning = new Text("YAAY! U MADE IT! ");
-		winning.setFont(font);
+		winning.setFont(winFont);
 		winning.setFill(Color.BLUE);
 		winning.setStroke(Color.AQUAMARINE);
 		winning.setStrokeWidth(5);
 		
+		subMessage = new Text(String.format("You used %d steps. Record is %d",
+				steps,rekord));
+		subMessage.setFont(subFont);
+		subMessage.setFill(Color.BISQUE);
+		subMessage.setStroke(Color.BLACK);
+		subMessage.setStrokeWidth(1);
+		
 		grid.add(winning, 0, 0,grid.getColumnCount(),grid.getRowCount()-1);
+		grid.add(subMessage, 0, (int)(grid.getRowCount()/2),
+				grid.getColumnCount(),grid.getRowCount()-1);
 	}
 
 	@Override

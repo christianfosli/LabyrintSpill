@@ -13,6 +13,7 @@ public class Utgang extends LabyrintRute{
 	@Override
 	public boolean moveHere(Spiller s) {
 		s.setPos(this.getPos());
+		s.setPoeng(s.getPoeng()+1);
 		s.setFortsette(false);
 		return true;
 	}

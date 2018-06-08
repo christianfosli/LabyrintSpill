@@ -1,12 +1,15 @@
 	package spiller;
 
+import java.io.Serializable;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.Shape;
 
-public class Spiller {
+public class Spiller implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String navn;
-	private int id;
+	private final int id;
 	private static int nextId = 1;
 	private int poeng;
 	private int[] posisjon; //lagt til for lab spill, posisjon[0] = xPos, posisjon[y] = yPos
@@ -107,7 +110,8 @@ public class Spiller {
 		return shape;
 	}
 	
+	//Kaller Poeng for 'Steps' for aa tilpasse LabyrintSPill
 	public String toString() {
-		return String.format("\tNavn: %10s,\tId: %d,\tPoeng: %d%n", navn, id, poeng);
+		return String.format("\tName: %10s\tSteps: %d%n", navn, poeng);
 	}
 }

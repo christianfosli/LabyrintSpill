@@ -37,6 +37,15 @@ and are automatically recognized as levels upon launch.
 If you download the game as a .JAR file, the maze directory needs to be placed in the 
 same directory as the .JAR file.
 
+### Score list
+
+The top 10 players who finish a level(or a maze) using the least amount of steps are added to
+the score list. The score list is saved to a file (per level) in the levels directory.
+
+To view the score list click `Scores` -> `View ScoreList`
+
+[comment]: <> (Legg til en aktuell screenshot)
+
 ### Lights
 
 The maze text file specifies whether lights should be on or off.

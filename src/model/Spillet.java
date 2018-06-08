@@ -116,17 +116,22 @@ public class Spillet {
 		
 		if (labyrinten.getRute(posisjon).moveHere(spilleren)) view.movePlayer();
 		if (!labyrinten.hasLights()) labyrinten.discoverRuter();
-		if (labyrinten.spillerAtExit()) {
+		if (labyrinten.spillerAtExit()) {//@WINNING!!!:
 			view.finish(spilleren.getPoeng(),labyrinten.getWinner().getPoeng());
-			if (spilleren.getPoeng() <= labyrinten.getMaxStepsForScoreList()) {
-				TextInputDialog scoreDialog = new TextInputDialog();
-				scoreDialog.setHeaderText("You made the high score list!");
-				scoreDialog.setContentText("Please enter your name");
-				scoreDialog.showAndWait();
-				spilleren.setNavn(scoreDialog.getEditor().getText());
-				labyrinten.addWinner(spilleren);
-			}
+			if (spilleren.getPoeng() <= labyrinten.getMaxStepsForScoreList()) 
+				makeWinner();
 		}
+	}
+	
+	private void makeWinner() {
+		TextInputDialog scoreDialog = new TextInputDialog();
+		scoreDialog.setHeaderText("You made the high score list!");
+		scoreDialog.setContentText("Please enter your name");
+		scoreDialog.showAndWait().ifPresent(response -> {
+			if (response.equals("")) response = "NONAME";
+			spilleren.setNavn(response);
+			labyrinten.addWinner(spilleren);
+		});;
 	}
 	
 	private void autoLoad() throws URISyntaxException, FileNotFoundException {

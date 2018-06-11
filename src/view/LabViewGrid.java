@@ -29,6 +29,14 @@ public class LabViewGrid implements View{
 		//Dynamic resizing of GridPane:
 		grid.prefWidthProperty().bind(this.root.widthProperty());
 		grid.prefHeightProperty().bind(this.root.heightProperty().subtract(this.model.getMenuBar().heightProperty()));
+		
+		//Redraw items which do not scale automatically when window changes size
+		root.widthProperty().addListener(e -> {
+			reSize();
+		});
+		root.heightProperty().addListener(e -> {
+			reSize();
+		});
 	}
 
 	@Override

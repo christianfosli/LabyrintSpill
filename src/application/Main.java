@@ -41,8 +41,14 @@ public class Main extends Application {
 			Spillet model = new Spillet(menuBar, this);
 			menuController.setModel(model);
 			
-			//Sett opp lyttere ved lambda funksjoner
-			configureListeners(model);
+			//Sett opp keyListener
+			scene.setOnKeyPressed(e -> {
+				if (e.getCode().equals(KeyCode.RIGHT) || e.getText().equals("l")) model.move(1, 0);
+				else if (e.getCode().equals(KeyCode.LEFT) || 
+						e.getText().equals("h") && !e.isShortcutDown()) model.move(-1, 0);
+				else if (e.getCode().equals(KeyCode.UP) || e.getText().equals("k")) model.move(0, -1);
+				else if (e.getCode().equals(KeyCode.DOWN) || e.getText().equals("j")) model.move(0, 1);
+			});
 
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -53,25 +59,6 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private void configureListeners(Spillet model) {
-		// Key Listener for Flytting av spiller
-		owner.getScene().setOnKeyPressed(e -> {
-			if (e.getCode().equals(KeyCode.RIGHT) || e.getText().equals("l")) model.move(1, 0);
-			else if (e.getCode().equals(KeyCode.LEFT) || 
-					e.getText().equals("h") && !e.isShortcutDown()) model.move(-1, 0);
-			else if (e.getCode().equals(KeyCode.UP) || e.getText().equals("k")) model.move(0, -1);
-			else if (e.getCode().equals(KeyCode.DOWN) || e.getText().equals("j")) model.move(0, 1);
-		});
-
-		// Automatisk resize
-		root.widthProperty().addListener(e -> {
-			model.getView().reSize();
-		});
-		root.heightProperty().addListener(e -> {
-			model.getView().reSize();
-		});
-	}
-
 	public Stage getOwner() {
 		return owner;
 	}

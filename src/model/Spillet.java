@@ -164,7 +164,7 @@ public class Spillet {
 		Region viewRegion = view.getViewRegion();
 		main.getRoot().setCenter(viewRegion);
 	}
-
+	
 	public Spiller getSpilleren() {
 		return spilleren;
 	}

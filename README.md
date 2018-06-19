@@ -25,7 +25,7 @@ There are two types of teleporters. The ones with red stroke teleports the playe
 back to the start position. The ones with purple stroke teleports the player to another
 location on the maze, specified in the maze text file, but unknown to the player.
 
-![](https://christianfosli.github.io/img/Labyrint_020.jpg)
+![](https://christianfosli.github.io/img/Labyrint03.jpg)
 
 ### Levels
 
@@ -44,14 +44,14 @@ the score list. The score list is saved to a file (per level) in the levels dire
 
 To view the score list click `Scores` -> `View ScoreList`
 
-[comment]: <> (Legg til en aktuell screenshot)
+![](https://christianfosli.github.io/img/Labyrint03_Scores.jpg)
 
 ### Lights
 
 The maze text file specifies whether lights should be on or off.
 When lights are off, the maze becomes dark at all areas except around where the player has moved.
 
-![](https://christianfosli.github.io/img/Labyrint_020_lights.jpg)
+![](https://christianfosli.github.io/img/Labyrint03_Lights.jpg)
 
 ### Dynamic scaling
 
